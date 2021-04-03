@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class MyHomePage extends StatelessWidget {
   final List<Transaction> transactions = [
     Transaction(
@@ -34,6 +35,12 @@ class MyHomePage extends StatelessWidget {
       date: DateTime.now(),
     ),
   ];
+
+  // String titleInput;
+  // String amountInput;
+
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,18 +68,29 @@ class MyHomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Title',
-                    ),
+                    decoration: InputDecoration(labelText: 'Title'),
+                    controller: titleController,
+                    onChanged: (value) {
+                      // titleInput = value;
+                      print(titleController.text);
+                    },
                   ),
                   TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Amount',
-                    ),
+                    decoration: InputDecoration(labelText: 'Amount'),
+                    controller: amountController,
+                    onChanged: (value) {
+                      // amountInput = value;
+                    },
                   ),
-                  TextButton(
-                    onPressed: () {},
+                  ElevatedButton(
                     child: Text('Add Transaction'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.purple,
+                      onPrimary: Colors.white,
+                    ),
+                    onPressed: () {
+                      
+                    },
                   ),
                 ],
               ),
@@ -117,8 +135,8 @@ class MyHomePage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            // DateFormat('yyyy-MM-dd').format(tx.date),
-                            DateFormat.yMMMd().format(tx.date),
+                            DateFormat('yyyy-MM-dd').format(tx.date),
+                            // DateFormat.yMMMd().format(tx.date),
                             style: TextStyle(
                               color: Colors.black54,
                             ),
