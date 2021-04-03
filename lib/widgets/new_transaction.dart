@@ -36,7 +36,7 @@ class NewTransaction extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 primary: Colors.purple,
                 onPrimary: Colors.white,
-              ),
+              ),  
               onPressed: () {
                 addTx(titleController.text, double.parse(amountController.text));
               },
