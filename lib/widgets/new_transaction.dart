@@ -26,37 +26,39 @@ class NewTransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: 'Title'),
-              controller: titleController,
-              onSubmitted: (_) => submitData(),
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Amount'),
-              controller: amountController,
-              // Android : number & iOS : numberWithOptions(decimal : true)
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              onSubmitted: (_) => submitData(),
-              onChanged: (value) {
-                // amountInput = value;
-              },
-            ),
-            ElevatedButton(
-              child: Text('Add Transaction'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.purple,
-                onPrimary: Colors.white,
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: 'Title'),
+                controller: titleController,
+                onSubmitted: (_) => submitData(),
               ),
-              onPressed: submitData,
-            ),
-          ],
+              TextField(
+                decoration: InputDecoration(labelText: 'Amount'),
+                controller: amountController,
+                // Android : number & iOS : numberWithOptions(decimal : true)
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                onSubmitted: (_) => submitData(),
+                onChanged: (value) {
+                  // amountInput = value;
+                },
+              ),
+              ElevatedButton(
+                child: Text('Add Transaction'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.purple,
+                  onPrimary: Colors.white,
+                ),
+                onPressed: submitData,
+              ),
+            ],
+          ),
         ),
       ),
     );
