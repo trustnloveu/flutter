@@ -17,14 +17,14 @@ class TransactionList extends StatelessWidget {
         itemCount: transactions.length,
         itemBuilder: (ctx, index) {
           return Card(
-              color: Colors.red[100],
+              color: Colors.green[50],
               child: Row(
                 children: [
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.purple,
+                        color: Theme.of(context).primaryColor,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(5),
@@ -32,11 +32,7 @@ class TransactionList extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     child: Text(
                       '\$${transactions[index].amount.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.purple,
-                      ),
+                      style: Theme.of(context).textTheme.headline1,
                     ),
                   ),
                   Column(
@@ -44,10 +40,7 @@ class TransactionList extends StatelessWidget {
                     children: [
                       Text(
                         transactions[index].title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                       Text(
                         DateFormat('yyyy-MM-dd').format(transactions[index].date),
