@@ -12,57 +12,78 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 400,
-      child: ListView.builder(
-        // crossAxisAlignment: CrossAxisAlignment.stretch,
-        itemCount: transactions.length,
-        itemBuilder: (ctx, index) {
-          return Card(
-              color: Colors.green[50],
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context).primaryColor,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      '\$${transactions[index].amount.toStringAsFixed(2)}',
-                      style: Theme.of(context).textTheme.headline1,
-                    ),
+      child: transactions.isEmpty
+          ? Column(
+              children: [
+                Text(
+                  'No transactions added yet',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 200,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.cover,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                ),
+              ],
+            )
+          : ListView.builder(
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
+              itemCount: transactions.length,
+              itemBuilder: (ctx, index) {
+                return Card(
+                  color: Colors.green[50],
+                  child: Row(
                     children: [
-                      Text(
-                        transactions[index].title,
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      Text(
-                        DateFormat('yyyy-MM-dd').format(transactions[index].date),
-                        // DateFormat.yMMMd().format(tx.date),
-                        style: TextStyle(
-                          color: Colors.black54,
+                      Container(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
                         ),
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          '\$${transactions[index].amount.toStringAsFixed(2)}',
+                          style: Theme.of(context).textTheme.headline1,
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            transactions[index].title,
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          Text(
+                            DateFormat('yyyy-MM-dd')
+                                .format(transactions[index].date),
+                            // DateFormat.yMMMd().format(tx.date),
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
-            );
-        },
-        
-        // For ListView, not ListView.builder
-        // children: [
-        //   ...transactions.map((tx) {
-        //     return Card( ... );
-        //   }),
-        // ],
-      ),
+                );
+              },
+
+              // For ListView, not ListView.builder
+              // children: [
+              //   ...transactions.map((tx) {
+              //     return Card( ... );
+              //   }),
+              // ],
+            ),
     );
   }
 }
