@@ -17,12 +17,14 @@ class _NewTransactionState extends State<NewTransaction> {
   DateTime _selectedDate;
 
   void _submitData() {
+    if (_amountController.text.isEmpty) return;
+
     // input value
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
     // For validation check
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
       return;
     }
 
@@ -30,6 +32,7 @@ class _NewTransactionState extends State<NewTransaction> {
     widget.addTx(
       enteredTitle,
       enteredAmount,
+      _selectedDate,
     );
 
     // auto close
@@ -49,7 +52,6 @@ class _NewTransactionState extends State<NewTransaction> {
       setState(() {
         _selectedDate = pickedDate;
       });
-      print(pickedDate);
     });
   }
 
@@ -80,7 +82,7 @@ class _NewTransactionState extends State<NewTransaction> {
                 child: Row(
                   children: [
                     Expanded(
-                                          child: Text(
+                      child: Text(
                         _selectedDate == null
                             ? 'No Date Chosen'
                             : 'Picked Date : ${DateFormat.yMd().format(_selectedDate)}',
