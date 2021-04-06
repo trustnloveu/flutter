@@ -39,20 +39,19 @@ class _NewTransactionState extends State<NewTransaction> {
     Navigator.of(context).pop();
   }
 
-  void _presentDatePicker() {
-    showDatePicker(
+  Future _presentDatePicker(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2021),
       lastDate: DateTime.now(),
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
+    );
+
+    if (pickedDate != null) {
       setState(() {
         _selectedDate = pickedDate;
       });
-    });
+    }
   }
 
   @override
@@ -95,7 +94,7 @@ class _NewTransactionState extends State<NewTransaction> {
                           textStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                           )),
-                      onPressed: _presentDatePicker,
+                      onPressed: () => _presentDatePicker(context),
                     ),
                   ],
                 ),
