@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -131,7 +134,18 @@ class _MyHomePageState extends State<MyHomePage> {
     final bool isLandScape = mediaQuery.orientation == Orientation.landscape;
 
     // App Bar
-    final appBar = AppBar(
+    final PreferredSize appBar = Platform.isIOS ? CupertinoNavigationBar(
+        middle: Text(
+        'Expense Planner',
+      ),
+      trailing: Row(
+        children: [
+          
+        ],
+      ),
+
+
+    ) :  AppBar(
       title: Text(
         'Expense Planner',
       ),
@@ -143,6 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
+    // Transaction List
     final txListWidget = Container(
         height: (mediaQuery.size.height -
                 appBar.preferredSize.height -
@@ -150,15 +165,8 @@ class _MyHomePageState extends State<MyHomePage> {
             1,
         child: TransactionList(_userTransactions, _deleteTranscation));
 
-    // return
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-
-      // App Bar
-      appBar: appBar,
-
-      // body
-      body: SingleChildScrollView(
+    // Body
+    final pageBody = SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -167,7 +175,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Show Chart'),
-                  Switch(
+                  Switch.adaptive(
+                    activeColor: Theme.of(context).accentColor,
                     value: _showChart,
                     onChanged: (val) {
                       setState(() {
@@ -198,12 +207,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   : txListWidget,
           ],
         ),
-      ),
+      );
+
+    // return
+    return Platform.isIOS ? CupertinoPageScaffold(child: pageBody, navigationBar: appBar) : Scaffold(
+      // resizeToAvoidBottomInset: false,
+
+      // App Bar
+      appBar: appBar,
+
+      // Body
+      body: pageBody,
+
+      // Floating Button
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _startAddNewTransaction(context),
-      ),
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () => _startAddNewTransaction(context),
+            ),
     );
   }
 }
