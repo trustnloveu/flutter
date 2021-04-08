@@ -1,5 +1,11 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+// Widgets
+import 'package:expense_planner/widgets/adaptive_flat_button.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -39,7 +45,7 @@ class _NewTransactionState extends State<NewTransaction> {
     Navigator.of(context).pop();
   }
 
-  Future _presentDatePicker(BuildContext context) async {
+  Future _presentDatePicker() async {
     final DateTime pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -93,15 +99,10 @@ class _NewTransactionState extends State<NewTransaction> {
                             : 'Picked Date : ${DateFormat.yMd().format(_selectedDate)}',
                       ),
                     ),
-                    TextButton(
-                      child: Text('Input Date'),
-                      style: TextButton.styleFrom(
-                          primary: Theme.of(context).primaryColor,
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          )),
-                      onPressed: () => _presentDatePicker(context),
-                    ),
+                    AdaptiveFlatButton(
+                      label: 'Input Date',
+                      eventHandler: _presentDatePicker,
+                    )
                   ],
                 ),
               ),
