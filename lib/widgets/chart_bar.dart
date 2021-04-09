@@ -35,6 +35,7 @@ class ChartBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
+                // TODO: Need to reverse the direction of chart bar later
                 FractionallySizedBox(
                   heightFactor: spendingPctOfTotal,
                   child: Container(
