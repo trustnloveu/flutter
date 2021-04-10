@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 // Widget
-import 'package:food_diary/categories_screen.dart'; // CategoriesScreen
+import 'package:food_diary/categories_screen.dart'; // CategoryScreen
+import 'package:food_diary/category_food_screen.dart'; // CategoriesFoodScreen
 
 void main() => runApp(MyApp());
 
@@ -29,8 +30,17 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      // home: MyHomePage(),
-      home: CategoriesScreen(),
+
+      // routes
+      initialRoute: '/', // default is '/'
+      routes : {
+        '/' : (ctx) => CategoriesScreen(),
+        // '/category-food' : (ctx) => CategoryFoodScreen(),
+        CategoryFoodScreen.routeName : (ctx) => CategoryFoodScreen(),
+      },
+
+      // home
+      // home: CategoriesScreen(),
     );
   }
 }
