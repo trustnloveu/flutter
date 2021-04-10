@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 // Widget
-import 'package:food_diary/categories_screen.dart'; // CategoryScreen
-import 'package:food_diary/category_food_screen.dart'; // CategoriesFoodScreen
+import 'package:food_diary/screens/categories_screen.dart'; // CategoryScreen
+import 'package:food_diary/screens/category_food_screen.dart'; // CategoriesFoodScreen
 
 void main() => runApp(MyApp());
 

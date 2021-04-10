@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Widgets
-import 'package:food_diary/category_item.dart';
+import 'package:food_diary/widgets/category_item.dart';
 
 // Dummy Data
 import 'package:food_diary/dummy_data.dart';

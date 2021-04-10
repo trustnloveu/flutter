@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Widgets & Routes
-import 'package:food_diary/category_food_screen.dart';
+import 'package:food_diary/screens/category_food_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   final String id;
