@@ -7,9 +7,11 @@ import 'package:food_diary/widgets/category_item.dart';
 import 'package:food_diary/dummy_data.dart';
 
 class CategoriesScreen extends StatelessWidget {
+
   // build
   @override
   Widget build(BuildContext context) {
+    
     // return
     return Scaffold(
       appBar: AppBar(

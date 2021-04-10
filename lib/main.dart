@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 // Widget
 import 'package:food_diary/screens/categories_screen.dart'; // CategoryScreen
-import 'package:food_diary/screens/category_food_screen.dart'; // CategoriesFoodScreen
+import 'package:food_diary/screens/category_food_screen.dart'; // FoodDetailScreen
+import 'package:food_diary/screens/food_detail_screen.dart'; // CategoriesFoodScreen
 
 void main() => runApp(MyApp());
 
@@ -35,8 +36,24 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // default is '/'
       routes : {
         '/' : (ctx) => CategoriesScreen(),
-        // '/category-food' : (ctx) => CategoryFoodScreen(),
-        CategoryFoodScreen.routeName : (ctx) => CategoryFoodScreen(),
+        CategoryFoodScreen.routeName : (ctx) => CategoryFoodScreen(), // '/category-food' : (ctx) => CategoryFoodScreen(),
+        FoodDetailScreen.routeName : (ctx) => FoodDetailScreen(),
+      },
+
+      // default route
+      onGenerateRoute: (settings) {
+        // print(settings.arguments);
+        // For dynamic routing, you can make use of 'onGenerateRoute'
+        // if (settings.name == 'food-detail') return ...;
+        // else if (settings.name == 'something-else') return ...;
+        // else ...;
+        // return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+      },  
+
+      // default route (404 page)
+      // It's reached when Flutter failed to build a screen with all other measures
+      onUnknownRoute: (settings) {
+        // return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
       },
 
       // home

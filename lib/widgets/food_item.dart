@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 // Model
 import 'package:food_diary/models/food.dart';
+import 'package:food_diary/screens/food_detail_screen.dart';
 
 class FoodItem extends StatelessWidget {
+  final String id;
   final String title;
   final String imageURL;
   final int duration;
@@ -11,6 +13,7 @@ class FoodItem extends StatelessWidget {
   final Affordability affordability;
 
   FoodItem({
+    @required this.id,
     @required this.title,
     @required this.imageURL,
     @required this.duration,
@@ -18,15 +21,54 @@ class FoodItem extends StatelessWidget {
     @required this.affordability,
   });
 
-  void selectFood() {}
+  // Getter which returns String value from Enum
+  String get complexityText {
+    switch (complexity) {
+      case Complexity.Simple:
+        return 'Simple';
+        break;
+      case Complexity.Hard:
+        return 'Hard';
+        break;
+      case Complexity.Challenging:
+        return 'Challenging';
+        break;
+      default:
+        return 'Unknown';
+    }
+  }
 
+  // Getter which returns String value from Enum
+  String get affordablityText {
+    switch (affordability) {
+      case Affordability.Affordable:
+        return 'Affordable';
+        break;
+      case Affordability.Pricey:
+        return 'Pricey';
+        break;
+      case Affordability.Luxurious:
+        return 'Luxurious';
+        break;
+      default:
+        return 'Unknown';
+    }
+  }
+
+  // Navigation toward FoodDetailScreen
+  void selectFood(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      FoodDetailScreen.routeName,
+      arguments: id,
+    );
+  }
 
   // build
   @override
   Widget build(BuildContext context) {
     // return
     return InkWell(
-      onTap: selectFood,
+      onTap: () => selectFood(context),
       child: Card(
         margin: EdgeInsets.all(10),
         elevation: 4,
@@ -50,8 +92,66 @@ class FoodItem extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
+                Positioned(
+                  bottom: 10,
+                  right: 10,
+                  child: Container(
+                    width: 300,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    color: Colors.black45,
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 26,
+                        color: Colors.white,
+                      ),
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
               ],
             ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.schedule),
+                        SizedBox(width: 6),
+                        Text('$duration min'),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.work),
+                        SizedBox(width: 6),
+                        Text('$complexityText'),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.attach_money),
+                        SizedBox(width: 6),
+                        Text('$affordablityText'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
