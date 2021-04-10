@@ -1,0 +1,37 @@
+import 'package:flutter/material.dart';
+
+// Widgets
+import 'package:food_diary/category_item.dart';
+
+// Dummy Data
+import 'package:food_diary/dummy_data.dart';
+
+class CategoriesScreen extends StatelessWidget {
+  // build
+  @override
+  Widget build(BuildContext context) {
+    // return
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Your Daily Meal'),
+      ),
+      body: GridView(
+        padding: const EdgeInsets.all(10),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 200,
+          childAspectRatio: 3 / 2, // = 1.5
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+        ),
+        children: [
+          ...DUMMY_CATEGORIES.map(
+            (data) => CategoryItem(
+              data.title,
+              data.color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
