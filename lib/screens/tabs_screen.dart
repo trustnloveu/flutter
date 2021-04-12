@@ -9,33 +9,51 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  List<Map<String, dynamic>> _pages = [
+    {'page' : CategoriesScreen(), 'label' : 'Categories'},
+    {'page' :FavoritesScreen(), 'label' : 'Favorites'},
+    // you can add any other property, like actions : [] ...
+  ];
+
+  int _selectedPageIndex = 0;
+
+  void _selectPage(int index) { // index is automatically given
+    setState(() {
+      _selectedPageIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      initialIndex: 0, // default is '0'
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Food'),
-          bottom: TabBar(
-            tabs: [
-              Tab(
-                icon: Icon(Icons.category),
-                text: 'Categories',
-              ),
-              Tab(
-                icon: Icon(Icons.star),
-                text: 'Favorites',
-              ),
-            ],
+    return Scaffold(
+      // AppBar
+      appBar: AppBar(
+        title: Text('Food'),
+      ),
+
+      // Body
+      body: _pages[_selectedPageIndex]['page'],
+
+      // Bar
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _selectPage,
+        backgroundColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Theme.of(context).accentColor,
+        currentIndex: _selectedPageIndex,
+        // type: BottomNavigationBarType.shifting, // 'fix' is default
+        items: [
+          BottomNavigationBarItem(
+            backgroundColor: Theme.of(context).primaryColor,
+            icon: Icon(Icons.category),
+            label: _pages[_selectedPageIndex]['label'],
           ),
-        ),
-        body: TabBarView(
-          children: [
-            CategoriesScreen(),
-            FavoritesScreen(),
-          ],
-        ),
+          BottomNavigationBarItem(
+            backgroundColor: Theme.of(context).primaryColor,
+            icon: Icon(Icons.star),
+            label: _pages[_selectedPageIndex]['label'],
+          ),
+        ],
       ),
     );
   }
