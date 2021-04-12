@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 // Widget
-import 'package:food_diary/screens/categories_screen.dart'; // CategoryScreen
+// import 'package:food_diary/screens/categories_screen.dart'; // CategoryScreen
 import 'package:food_diary/screens/category_food_screen.dart'; // FoodDetailScreen
-import 'package:food_diary/screens/food_detail_screen.dart';
+import 'package:food_diary/screens/filters_screen.dart'; // FiltersScreen
+import 'package:food_diary/screens/food_detail_screen.dart'; // FoodDetailScreen
 import 'package:food_diary/screens/tabs_screen.dart'; // CategoriesFoodScreen
 
 void main() => runApp(MyApp());
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/' : (ctx) => TabsScreen(),
         CategoryFoodScreen.routeName : (ctx) => CategoryFoodScreen(), // '/category-food' : (ctx) => CategoryFoodScreen(),
         FoodDetailScreen.routeName : (ctx) => FoodDetailScreen(),
+        FiltersScreen.routeName : (ctx) => FiltersScreen(), 
       },
 
       // default route

@@ -11,6 +11,7 @@ class FoodItem extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
+  final Function removeItem;
 
   FoodItem({
     @required this.id,
@@ -19,6 +20,7 @@ class FoodItem extends StatelessWidget {
     @required this.duration,
     @required this.complexity,
     @required this.affordability,
+    @required this.removeItem,
   });
 
   // Getter which returns String value from Enum
@@ -57,9 +59,18 @@ class FoodItem extends StatelessWidget {
 
   // Navigation toward FoodDetailScreen
   void selectFood(BuildContext context) {
-    Navigator.of(context).pushNamed(
+    Navigator.of(context)
+        .pushNamed(
       FoodDetailScreen.routeName,
       arguments: id,
+    )
+        .then( // this is not executed when this page pushed, it works when user come back to this page. Plus, with this, you can pass back some data, as well
+      (result) {
+        print(result);
+        if (result != null) {
+          removeItem(result);
+        }
+      },
     );
   }
 
