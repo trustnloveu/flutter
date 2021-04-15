@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+// Model & Dummy Data
+import 'package:food_diary/models/food.dart';
+import 'package:food_diary/dummy_data.dart';
+
 // Widget
 // import 'package:food_diary/screens/categories_screen.dart'; // CategoryScreen
 import 'package:food_diary/screens/category_food_screen.dart'; // FoodDetailScreen
@@ -9,7 +13,34 @@ import 'package:food_diary/screens/tabs_screen.dart'; // CategoriesFoodScreen
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> _filters = {
+    'gluten' : false,
+    'lactose' : false,
+    'vegan' : false,
+    'vegetarian' : false,
+  };
+
+  List<Food> _availableFoods = DUMMY_FOODS;
+
+  void _setFilters(Map<String, bool> filterData) {
+    setState(() {
+      _filters = filterData;
+
+      _availableFoods = DUMMY_FOODS.where((food) {
+        if (_filters['gluten'] && !food.isGlutenFree) return false;
+        if (_filters['lactose'] && !food.isLactoseFree) return false;
+        if (_filters['vegan'] && !food.isVegan) return false;
+        if (_filters['vegetarian'] && !food.isVegetarian) return false;
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,9 +70,9 @@ class MyApp extends StatelessWidget {
       routes : {
         // '/' : (ctx) => CategoriesScreen(),
         '/' : (ctx) => TabsScreen(),
-        CategoryFoodScreen.routeName : (ctx) => CategoryFoodScreen(), // '/category-food' : (ctx) => CategoryFoodScreen(),
+        CategoryFoodScreen.routeName : (ctx) => CategoryFoodScreen(_availableFoods), // '/category-food' : (ctx) => CategoryFoodScreen(),
         FoodDetailScreen.routeName : (ctx) => FoodDetailScreen(),
-        FiltersScreen.routeName : (ctx) => FiltersScreen(), 
+        FiltersScreen.routeName : (ctx) => FiltersScreen(_setFilters), 
       },
 
       // default route

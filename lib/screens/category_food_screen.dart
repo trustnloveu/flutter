@@ -12,6 +12,10 @@ import 'package:food_diary/dummy_data.dart';
 class CategoryFoodScreen extends StatefulWidget {
   static const routeName = '/category-food';
 
+  final List<Food> availableFoods;
+
+  CategoryFoodScreen(this.availableFoods);
+
   @override
   _CategoryFoodScreenState createState() => _CategoryFoodScreenState();
 }
@@ -38,7 +42,7 @@ class _CategoryFoodScreenState extends State<CategoryFoodScreen> {
       categoryTitle = routeArgs['title'];
 
       // filtered category
-      displayFoods = DUMMY_FOODS.where((food) {
+      displayFoods = widget.availableFoods.where((food) { // < DUMMY_FOODS
         return food.categories.contains(categoryId);
       }).toList();
 
