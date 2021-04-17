@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:food_diary/models/food.dart';
 import 'package:food_diary/dummy_data.dart';
 
-// Widget
+// Widget(Screen)
 // import 'package:food_diary/screens/categories_screen.dart'; // CategoryScreen
 import 'package:food_diary/screens/category_food_screen.dart'; // FoodDetailScreen
 import 'package:food_diary/screens/filters_screen.dart'; // FiltersScreen
@@ -27,6 +27,8 @@ class _MyAppState extends State<MyApp> {
   };
 
   List<Food> _availableFoods = DUMMY_FOODS;
+
+  List<Food> _favoriteFoods = [];
 
   void _setFilters(Map<String, bool> filterData) {
     print(filterData);
@@ -79,11 +81,11 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/', // default is '/'
       routes: {
         // '/' : (ctx) => CategoriesScreen(),
-        '/': (ctx) => TabsScreen(),
+        '/': (ctx) => TabsScreen(_favoriteFoods),
         CategoryFoodScreen.routeName: (ctx) => CategoryFoodScreen(
             _availableFoods), // '/category-food' : (ctx) => CategoryFoodScreen(),
         FoodDetailScreen.routeName: (ctx) => FoodDetailScreen(),
-        FiltersScreen.routeName: (ctx) => FiltersScreen(_setFilters),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(_filters, _setFilters),
       },
 
       // default route
