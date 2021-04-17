@@ -20,25 +20,35 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Map<String, bool> _filters = {
-    'gluten' : false,
-    'lactose' : false,
-    'vegan' : false,
-    'vegetarian' : false,
+    'gluten': false,
+    'lactose': false,
+    'vegan': false,
+    'vegetarian': false,
   };
 
   List<Food> _availableFoods = DUMMY_FOODS;
 
   void _setFilters(Map<String, bool> filterData) {
+    print(filterData);
     setState(() {
       _filters = filterData;
 
       _availableFoods = DUMMY_FOODS.where((food) {
-        if (_filters['gluten'] && !food.isGlutenFree) return false;
-        if (_filters['lactose'] && !food.isLactoseFree) return false;
-        if (_filters['vegan'] && !food.isVegan) return false;
-        if (_filters['vegetarian'] && !food.isVegetarian) return false;
+        if (_filters['gluten'] && !food.isGlutenFree) {
+          return false;
+        }
+        if (_filters['lactose'] && !food.isLactoseFree) {
+          return false;
+        }
+        if (_filters['vegan'] && !food.isVegan) {
+          return false;
+        }
+        if (_filters['vegetarian'] && !food.isVegetarian) {
+          return false;
+        }
+        return true;
       }).toList();
-    });
+    }); 
   }
 
   @override
@@ -67,12 +77,13 @@ class _MyAppState extends State<MyApp> {
 
       // routes
       initialRoute: '/', // default is '/'
-      routes : {
+      routes: {
         // '/' : (ctx) => CategoriesScreen(),
-        '/' : (ctx) => TabsScreen(),
-        CategoryFoodScreen.routeName : (ctx) => CategoryFoodScreen(_availableFoods), // '/category-food' : (ctx) => CategoryFoodScreen(),
-        FoodDetailScreen.routeName : (ctx) => FoodDetailScreen(),
-        FiltersScreen.routeName : (ctx) => FiltersScreen(_setFilters), 
+        '/': (ctx) => TabsScreen(),
+        CategoryFoodScreen.routeName: (ctx) => CategoryFoodScreen(
+            _availableFoods), // '/category-food' : (ctx) => CategoryFoodScreen(),
+        FoodDetailScreen.routeName: (ctx) => FoodDetailScreen(),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(_setFilters),
       },
 
       // default route
@@ -83,7 +94,7 @@ class _MyAppState extends State<MyApp> {
         // else if (settings.name == 'something-else') return ...;
         // else ...;
         // return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
-      },  
+      },
 
       // default route (404 page)
       // It's reached when Flutter failed to build a screen with all other measures

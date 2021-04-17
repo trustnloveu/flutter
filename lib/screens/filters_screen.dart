@@ -15,10 +15,10 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  var _glutenFree = false;
-  var _vegetarian = false;
-  var _vegan = false;
-  var _loctoseFree = false;
+  bool _glutenFree = false;
+  bool _vegetarian = false;
+  bool _vegan = false;
+  bool _loctoseFree = false;
 
   Widget _buildSwitchListTile(
     String title,
@@ -44,7 +44,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: widget.saveFilters, // Save options & Apply to filter
+            // Save options & Apply to filter
+            onPressed: () {
+              final selectedFilters = {
+                'gluten': _glutenFree,
+                'lactose': _loctoseFree,
+                'vegan': _vegan,
+                'vegetarian': _vegetarian,
+              };
+              widget.saveFilters(selectedFilters);
+            },
           ),
         ],
       ),
