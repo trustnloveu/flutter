@@ -11,7 +11,7 @@ class FoodItem extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
-  final Function removeItem;
+  // final Function removeItem;
 
   FoodItem({
     @required this.id,
@@ -20,7 +20,7 @@ class FoodItem extends StatelessWidget {
     @required this.duration,
     @required this.complexity,
     @required this.affordability,
-    @required this.removeItem,
+    // @required this.removeItem,
   });
 
   // Getter which returns String value from Enum
@@ -68,7 +68,7 @@ class FoodItem extends StatelessWidget {
       (result) {
         print(result);
         if (result != null) {
-          removeItem(result);
+          // removeItem(result);
         }
       },
     );

@@ -50,9 +50,28 @@ class _MyAppState extends State<MyApp> {
         }
         return true;
       }).toList();
-    }); 
+    });
   }
 
+  void _toggleFavorite(String foodId) {
+    final existingIdex = _favoriteFoods.indexWhere((food) => food.id == foodId);
+
+    if (existingIdex >= 0) {
+      setState(() {
+        _favoriteFoods.removeAt(existingIdex);
+      });
+    } else {
+      setState(() {
+        _favoriteFoods.add(DUMMY_FOODS.firstWhere((food) => food.id == foodId));
+      });
+    }
+  }
+
+  bool _isFoodFavortie(String id) {
+    return _favoriteFoods.any((food) => food.id == id);
+  }
+
+  // build
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -84,7 +103,7 @@ class _MyAppState extends State<MyApp> {
         '/': (ctx) => TabsScreen(_favoriteFoods),
         CategoryFoodScreen.routeName: (ctx) => CategoryFoodScreen(
             _availableFoods), // '/category-food' : (ctx) => CategoryFoodScreen(),
-        FoodDetailScreen.routeName: (ctx) => FoodDetailScreen(),
+        FoodDetailScreen.routeName: (ctx) => FoodDetailScreen(_toggleFavorite, _isFoodFavortie),
         FiltersScreen.routeName: (ctx) => FiltersScreen(_filters, _setFilters),
       },
 

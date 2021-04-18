@@ -7,6 +7,11 @@ class FoodDetailScreen extends StatelessWidget {
   // route name
   static const routeName = '/food-detail';
 
+  final Function toggleFavorite;
+  final Function isFoodFavortie;
+
+  FoodDetailScreen(this.toggleFavorite, this.isFoodFavortie);
+
   // Title Widget
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
@@ -34,10 +39,13 @@ class FoodDetailScreen extends StatelessWidget {
     );
   }
 
+  // build
   @override
   Widget build(BuildContext context) {
+    // Single food ID
     final foodId = ModalRoute.of(context).settings.arguments as String;
 
+    // Selected Food
     final selectedFood = DUMMY_FOODS.firstWhere((data) => data.id == foodId);
 
     // return
@@ -99,9 +107,12 @@ class FoodDetailScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.delete),
+        child: Icon(
+          isFoodFavortie(foodId) ? Icons.star : Icons.star_border,
+        ),
         onPressed: () {
-          Navigator.of(context).pop(foodId);
+          toggleFavorite(foodId);
+          // Navigator.of(context).pop(foodId);
         },
       ),
     );
