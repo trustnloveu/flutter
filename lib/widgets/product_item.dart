@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Routes
+import 'package:shop_app/screens/product_detail_screen.dart';
+
 class ProductItem extends StatelessWidget {
   final String id;
   final String title;
@@ -18,10 +21,18 @@ class ProductItem extends StatelessWidget {
     // return
     return ClipRRect(
       borderRadius: BorderRadius.circular(7.5),
-          child: GridTile(
-        child: Image.network(
-          imageUrl,
-          fit: BoxFit.cover,
+      child: GridTile(
+        child: GestureDetector(
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
+          ),
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              ProductDetailScreen.routeName,
+              arguments: id,
+            );
+          },
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,
@@ -44,3 +55,7 @@ class ProductItem extends StatelessWidget {
     );
   }
 }
+//* Side Note */
+// Navigator.of(context).push(
+// MaterialPageRoute(builder: (ctx) => ProductDetailScreen(title: title)),
+// );
