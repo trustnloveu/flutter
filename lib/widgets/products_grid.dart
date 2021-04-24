@@ -9,12 +9,19 @@ import 'package:shop_app/providers/products.dart';
 
 // Main
 class ProductsGrid extends StatelessWidget {
+  final bool showFavotrieOption;
+
+  // Constructor
+  ProductsGrid(this.showFavotrieOption);
+
   // build
   @override
   Widget build(BuildContext context) {
     // Provider
     final productsData = Provider.of<Products>(context); // instance
-    final products = productsData.items; // call getter
+    final products = showFavotrieOption
+        ? productsData.favoritesItems
+        : productsData.items; // call getter
 
     // return
     return GridView.builder(

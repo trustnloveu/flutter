@@ -40,10 +40,15 @@ class Products with ChangeNotifier {
     ),
   ];
 
-  // Getter
-  // ! To avoid direct access to the poitner
+
+  // Getter // ! To avoid direct access to the poitner
   List<Product> get items {
     return [..._items];
+  }
+
+  // Getter
+  List<Product> get favoritesItems {
+    return _items.where((item) => item.isFavorite).toList();
   }
 
   Product findById(String id) {
