@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     // return
     return ChangeNotifierProvider(
       create: (ctx) => Products(),
-          child: MaterialApp(
+      child: MaterialApp(
         // Title
         title: 'Flutter Demo',
 
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Lato',
         ),
 
-        // Home 
+        // Home
         home: ProductsOverviewScreen(),
 
         // routes

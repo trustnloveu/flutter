@@ -2,26 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Model
-import 'package:shop_app/providers/product.dart'; 
+import 'package:shop_app/providers/product.dart';
 
 // Routes
 import 'package:shop_app/screens/product_detail_screen.dart';
 
 class ProductItem extends StatelessWidget {
-  // final String id;
-  // final String title;
-  // final String imageUrl;
-
-  // ProductItem({
-  //   this.id,
-  //   this.title,
-  //   this.imageUrl,
-  // });
+  // Contructor
+  ProductItem();
 
   // build
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    // product provider
+    final product = Provider.of<Product>(context, listen: false);
 
     // return
     return ClipRRect(
@@ -45,10 +39,20 @@ class ProductItem extends StatelessWidget {
             product.title,
             textAlign: TextAlign.center,
           ),
-          leading: IconButton(
-            icon: Icon(Icons.favorite_rounded),
-            color: Theme.of(context).accentColor,
-            onPressed: () {},
+          leading: Consumer<Product>(
+            builder: (ctx, product, child) => IconButton(
+              icon: Icon(
+                product.isFavorite
+                    ? Icons.favorite_rounded
+                    : Icons.favorite_border_rounded,
+              ),
+              // label: child // note: how to use child property of Consumer builder
+              color: Theme.of(context).accentColor,
+              onPressed: () {
+                product.toggleFavoriteStatus();
+              },
+            ),
+            // child : Widget(...), // note : child property of Consumer builder
           ),
           trailing: IconButton(
             icon: Icon(Icons.shopping_cart_rounded),
@@ -62,5 +66,5 @@ class ProductItem extends StatelessWidget {
 }
 //* Side Note */
 // Navigator.of(context).push(
-// MaterialPageRoute(builder: (ctx) => ProductDetailScreen(title: title)),
+//  MaterialPageRoute(builder: (ctx) => ProductDetailScreen(title: title)),
 // );
