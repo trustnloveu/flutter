@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Models
-import 'package:shop_app/models/product.dart';
+import 'package:shop_app/providers/product.dart';
 
 class Products with ChangeNotifier {
   // data-set of products in array
@@ -44,6 +44,10 @@ class Products with ChangeNotifier {
   // ! To avoid direct access to the poitner
   List<Product> get items {
     return [..._items];
+  }
+
+  Product findById(String id) {
+    return _items.firstWhere((product) => product.id == id);
   }
 
   void addProduct() {
