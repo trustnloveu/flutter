@@ -8,7 +8,8 @@ import 'package:shop_app/screens/products_overview_screen.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
 
 // Providers
-import 'package:shop_app/providers/products.dart';
+import 'package:shop_app/providers/products.dart'; // Products
+import 'package:shop_app/providers/cart.dart'; // Cart
 
 // Run the app
 void main() => runApp(MyApp());
@@ -19,8 +20,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // return
-    return ChangeNotifierProvider(
-      create: (ctx) => Products(),
+    return MultiProvider(
+      // Providers
+      providers: [
+        // Products
+        ChangeNotifierProvider(
+          create: (ctx) => Products(),
+        ),
+        // Cart
+        ChangeNotifierProvider(
+          create: (ctx) => Cart(),
+        ),
+      ],
       child: MaterialApp(
         // Title
         title: 'Flutter Demo',
