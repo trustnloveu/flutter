@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// Screens
-import 'package:shop_app/screens/products_overview_screen.dart';
-
-// Routes
-import 'package:shop_app/screens/product_detail_screen.dart';
+// Screens & Routes
+import 'package:shop_app/screens/products_overview_screen.dart'; // ProductsOverviewScreen
+import 'package:shop_app/screens/cart_screen.dart'; // CartScreen
+import 'package:shop_app/screens/product_detail_screen.dart'; // ProductDetailScreen
 
 // Providers
 import 'package:shop_app/providers/products.dart'; // Products
@@ -49,6 +48,7 @@ class MyApp extends StatelessWidget {
         // routes
         routes: {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+          CartScreen.routeName: (ctx) => CartScreen(),
         },
       ),
     );
