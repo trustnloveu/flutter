@@ -26,13 +26,13 @@ class Cart with ChangeNotifier {
     return _items == null ? 0 : _items.length;
   }
 
-  String get totalAmount {
+  double get totalAmount {
     var total = 0.0;
     _items.forEach((key, cartItem) {
       total += cartItem.price * cartItem.quantity;
     });
 
-    return total.toStringAsFixed(2);
+    return total;
   }
 
   // addItem

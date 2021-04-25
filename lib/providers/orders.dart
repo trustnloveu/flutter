@@ -5,7 +5,7 @@ import 'package:shop_app/providers/cart.dart';
 
 class OrderItem {
   final String id;
-  final String amount;
+  final double amount;
   final List<CartItem> products;
   final DateTime dateTime;
 
@@ -24,7 +24,7 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
-  void addOrder(List<CartItem> cartProducts, String total) {
+  void addOrder(List<CartItem> cartProducts, double total) {
     _orders.insert(
       0,
       OrderItem(
