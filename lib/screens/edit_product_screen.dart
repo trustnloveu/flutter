@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/providers/product.dart';
+import 'package:provider/provider.dart';
+
+// Model
+import 'package:shop_app/providers/product.dart'; // Product
+
+// Provider
+import 'package:shop_app/providers/products.dart'; // Products
 
 class EditProductScreen extends StatefulWidget {
   // Route Name
@@ -69,17 +75,21 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   // To Submit Data from Form
   void _saveForm() {
+    // Vlidate
     final isValid =
         _form.currentState.validate(); // To trigger all validator in the Form
-    if (!isValid) return; // Not Valid
+    if (!isValid) {
+      return;
+    } // Not Valid
+    print('123');
 
+    // Save the change
     _form.currentState.save();
 
-    print(_editedProduct.title);
-    print(_editedProduct.price);
-    print(_editedProduct.description);
-    print(_editedProduct.imageUrl);
-    print(_editedProduct);
+    // Add state to Provider
+    Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+    print('123');
+    Navigator.of(context).pop();
   }
 
   // build
@@ -230,11 +240,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       textInputAction: TextInputAction.done,
                       controller: _imageUrlController, // controller
                       focusNode: _imageUrlFocusNode,
-                      // Submit Event
-                      onFieldSubmitted: (_) {
-                        _saveForm();
-                      },
-                      // validation
+                      // Validation
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter an image URL';
@@ -248,7 +254,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             !value.endsWith('.jpeg')) {
                           return 'Please enter a valid image url';
                         }
-                        return '';
+                        return null;
                       },
                       // onSaved
                       onSaved: (value) {
@@ -260,8 +266,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           imageUrl: value,
                         );
                       },
+                      // Submit Event
+                      onFieldSubmitted: (_) {
+                        _saveForm();
+                      },
                       // onEditingComplete: () {
-                      //   setState(() {});
+                      // setState(() {});
                       // },
                     ),
                   ),
