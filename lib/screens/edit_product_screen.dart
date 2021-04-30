@@ -39,12 +39,45 @@ class _EditProductScreenState extends State<EditProductScreen> {
     imageUrl: '',
   );
 
+  var _isInit = true;
+
+  var _initValues = {
+    'title': '',
+    'description': '',
+    'price': '',
+    'imageUrl': '',
+  };
+
   // initState
   @override
   void initState() {
     _imageUrlFocusNode.addListener(_updateImageUrl);
 
     super.initState();
+  }
+
+  // didChangeDependencies
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final productId = ModalRoute.of(context).settings.arguments as String;
+     
+      if (productId != null) {
+        _editedProduct =
+            Provider.of<Products>(context, listen: false).findById(productId);
+        _initValues = {
+          'title': _editedProduct.title,
+          'description': _editedProduct.description,
+          'price': _editedProduct.price.toString(),
+          // 'imageUrl': _editedProduct.imageUrl,
+          'imageUrl' :'',
+        };
+        _imageUrlController.text = _editedProduct.imageUrl;
+      }
+    }
+    _isInit = false;
+
+    super.didChangeDependencies();
   }
 
   // dispose for prevent memory leaks from Focus Node
@@ -78,17 +111,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
     // Vlidate
     final isValid =
         _form.currentState.validate(); // To trigger all validator in the Form
-    if (!isValid) {
-      return;
-    } // Not Valid
-    print('123');
+    if (!isValid) return; // Not Valid
 
     // Save the change
     _form.currentState.save();
 
     // Add state to Provider
     Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
-    print('123');
+
     Navigator.of(context).pop();
   }
 
@@ -118,6 +148,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             children: [
               // Title Input
               TextFormField(
+                initialValue: _initValues['title'],
                 decoration: InputDecoration(labelText: 'Title'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (value) {
@@ -145,6 +176,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
               // Price Input
               TextFormField(
+                initialValue: _initValues['price'],
                 decoration: InputDecoration(labelText: 'Price'),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -181,6 +213,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
               // Description Input
               TextFormField(
+                initialValue: _initValues['description'],
                 decoration: InputDecoration(labelText: 'Description'),
                 maxLines: 3,
                 keyboardType: TextInputType.multiline,
@@ -235,6 +268,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   // Image(URL) Input
                   Expanded(
                     child: TextFormField(
+                      // initialValue: _initValues['imageUrl'], > Error > because of Controller
                       decoration: InputDecoration(labelText: 'Image URL'),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
