@@ -22,8 +22,17 @@ class UserProductItem extends StatelessWidget {
   // build
   @override
   Widget build(BuildContext context) {
+    // ScaffoldMessenger
+    final scaffold = ScaffoldMessenger.of(context);
+
+    // SnackBar
     SnackBar snackBar = SnackBar(
-      content: Text('Failed to Delete the Item'),
+      behavior: SnackBarBehavior.floating,
+      duration: Duration(seconds: 2),
+      content: Text(
+        'Failed to Delete the Item',
+        textAlign: TextAlign.center,
+      ),
     );
 
     // return
@@ -55,8 +64,9 @@ class UserProductItem extends StatelessWidget {
                   await Provider.of<Products>(context, listen: false)
                       .deleteProduct(id);
                 } catch (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                } finally{
+                  scaffold.hideCurrentSnackBar();
+                  scaffold.showSnackBar(snackBar);
+                } finally {
                   // print('Code in this block will always be executed');
                 }
               },

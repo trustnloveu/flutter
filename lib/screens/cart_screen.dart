@@ -50,18 +50,9 @@ class CartScreen extends StatelessWidget {
                               .color),
                     ),
                   ),
-                  TextButton(
-                    child: Text('Order Now'),
-                    style: TextButton.styleFrom(
-                        primary: Theme.of(context).primaryColor),
-                    onPressed: () {
-                      Provider.of<Orders>(context, listen: false).addOrder(
-                        cart.items.values.toList(),
-                        cart.totalAmount,
-                      );
-                      cart.clear();
-                    },
-                  ),
+
+                  // Submit a list of orders
+                  OrderButton(cart: cart),
                 ],
               ),
             ),
@@ -81,6 +72,53 @@ class CartScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+// Order Button Widget
+class OrderButton extends StatefulWidget {
+  final Cart cart;
+
+  const OrderButton({
+    @required this.cart,
+  });
+
+  @override
+  _OrderButtonState createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  // For Loading Spinner
+  var _isLoading = false;
+
+  // build
+  @override
+  Widget build(BuildContext context) {
+    // return
+    return TextButton(
+      child: _isLoading
+          ? CircularProgressIndicator(
+              backgroundColor: Theme.of(context).primaryColor,
+            )
+          : Text('Order Now'),
+      style: TextButton.styleFrom(primary: Theme.of(context).primaryColor),
+      // addOrder Event
+      onPressed: (widget.cart.totalAmount <= 0 || _isLoading)
+          ? null
+          : () async {
+              setState(() {
+                _isLoading = true;
+              });
+              await Provider.of<Orders>(context, listen: false).addOrder(
+                widget.cart.items.values.toList(),
+                widget.cart.totalAmount,
+              );
+              setState(() {
+                _isLoading = false;
+              });
+              widget.cart.clear();
+            },
     );
   }
 }

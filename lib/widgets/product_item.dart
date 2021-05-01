@@ -53,7 +53,7 @@ class ProductItem extends StatelessWidget {
               // label: child // note: how to use child property of Consumer builder
               color: Theme.of(context).accentColor,
               onPressed: () {
-                product.toggleFavoriteStatus();
+                product.toggleFavoriteStatus(product.id);
               },
             ),
             // child : Widget(...), // note : child property of Consumer builder
