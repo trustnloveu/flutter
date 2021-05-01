@@ -56,6 +56,20 @@ class Products with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
+  // Get
+  Future<void> fetchAndSetProducts() async {
+    final url = Uri.parse(
+        'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/products.json');
+
+    try {
+      final response = await http.get(url);
+      print(response);
+      print(json.decode(response.body));
+    } catch (error) {
+      throw(error);
+    }
+  }
+
   // Post
   Future<void> addProduct(Product product) {
     final url = Uri.parse(
@@ -112,8 +126,7 @@ class Products with ChangeNotifier {
         'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/products.json');
 
     try {
-      final response = await http
-          .delete(
+      final response = await http.delete(
         url,
         body: json.encode(
           {

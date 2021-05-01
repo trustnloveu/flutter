@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+// Screens
 import 'package:shop_app/screens/cart_screen.dart';
 
 // Widgets
@@ -9,6 +11,7 @@ import 'package:shop_app/widgets/products_grid.dart'; // ProductsGrid
 
 // Provider
 import 'package:shop_app/providers/cart.dart'; // Cart
+import 'package:shop_app/providers/products.dart'; // Products
 
 enum FilterOptions {
   Favorites,
@@ -26,6 +29,32 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _showOnlyFavorites = false;
+  var _isInit = true;
+
+  // initState
+  @override
+  void initState() {
+    // Provider.of<Products>(context).fetchAndSetProducts(); // This won't work because of context
+    
+    // Solution 1
+    // Future.delayed(Duration.zero).then((_) {
+    //   Provider.of<Products>(context).fetchAndSetProducts();
+    // });
+
+    super.initState();
+  }
+
+  // didChangeDependencies
+  @override
+  void didChangeDependencies() {
+    // Solution 2
+    if (_isInit) {
+      Provider.of<Products>(context).fetchAndSetProducts();
+    }
+    _isInit = false;
+    
+    super.didChangeDependencies();
+  }
 
   // build
   @override
