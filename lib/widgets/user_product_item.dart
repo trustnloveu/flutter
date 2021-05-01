@@ -35,6 +35,7 @@ class UserProductItem extends StatelessWidget {
       trailing: FittedBox(
         child: Row(
           children: [
+            // Edit Productt Buttton
             IconButton(
               icon: Icon(Icons.edit),
               color: Theme.of(context).primaryColor,
@@ -45,6 +46,7 @@ class UserProductItem extends StatelessWidget {
                 );
               },
             ),
+            // Delete Productt Buttton
             IconButton(
               icon: Icon(Icons.delete),
               color: Theme.of(context).errorColor,
@@ -55,8 +57,8 @@ class UserProductItem extends StatelessWidget {
                 } catch (error) {
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 } finally{
-                  print('Code in this block will always be executed');
-                };
+                  // print('Code in this block will always be executed');
+                }
               },
             ),
           ],
