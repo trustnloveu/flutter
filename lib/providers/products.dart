@@ -56,6 +56,7 @@ class Products with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
+  // Post
   Future<void> addProduct(Product product) {
     final url = Uri.parse(
         'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/products.json');
@@ -94,6 +95,7 @@ class Products with ChangeNotifier {
     );
   }
 
+  // Put
   void updateProduct(String id, Product newProduct) {
     final productIndex = _items.indexWhere((product) => product.id == id);
     if (productIndex >= 0) {
@@ -104,8 +106,29 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((product) => product.id == id);
-    notifyListeners();
+  // Delete
+  Future<void> deleteProduct(String id) async {
+    final url = Uri.parse(
+        'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/products.json');
+
+    try {
+      final response = await http
+          .delete(
+        url,
+        body: json.encode(
+          {
+            'id': id,
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        _items.removeWhere((product) => product.id == id);
+        notifyListeners();
+      }
+    } catch (error) {
+      print(error);
+      throw error;
+    }
   }
 }
