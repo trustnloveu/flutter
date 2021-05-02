@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Screens & Routes
+import 'package:shop_app/screens/auth_screen.dart'; // AuthScreen
 import 'package:shop_app/screens/cart_screen.dart'; // CartScreen
 import 'package:shop_app/screens/orders_screen.dart'; // OrdersScreen
 import 'package:shop_app/screens/edit_product_screen.dart';  // EditProductScreen
@@ -50,15 +51,18 @@ class MyApp extends StatelessWidget {
         ),
 
         // Home
-        home: ProductsOverviewScreen(),
+        // home: ProductsOverviewScreen(),
+        home: AuthScreen(),
 
         // routes
         routes: {
+          // ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
           OrdersScreen.routeName : (ctx) => OrdersScreen(),
           UserProductsScreen.routeName : (ctx) => UserProductsScreen(),
           EditProductScreen.routeName : (ctx) => EditProductScreen(),
+          // AuthScreen.routeName : (ctx) => AuthScreen(),
         },
       ),
     );
