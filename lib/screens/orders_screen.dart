@@ -15,30 +15,24 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-  // isLoading
-  var _isLoading = false;
+  // To avoid unnecessary building
+  Future _ordersFuture;
+  Future _obtainOrdersFuture() {
+    return Provider.of<Orders>(context, listen: false).fetchAndSetOrders();
+  }
 
   // initState
   @override
   void initState() {
-    Future.delayed(Duration.zero).then((_) async {
-      setState(() {
-        _isLoading = true;
-      });
-      await Provider.of<Orders>(context, listen: false).fetchAndSetOrders();
-      setState(() {
-        _isLoading = false;
-      });
-    });
+    _ordersFuture = _obtainOrdersFuture();
 
     super.initState();
   }
 
-  // build
   @override
   Widget build(BuildContext context) {
-    // Orders Provier
-    final orderData = Provider.of<Orders>(context);
+    // Orders Provier > initState || didChangeDependencies > isLoading > Build Widget
+    // final orderData = Provider.of<Orders>(context);
 
     // return
     return Scaffold(
@@ -50,19 +44,55 @@ class _OrdersScreenState extends State<OrdersScreen> {
       // drawer
       drawer: AppDrawer(),
 
-      // body
-      body: _isLoading
-          ? Center(
+      // body > FutureBuilder
+      body: FutureBuilder(
+        // future: Provider.of<Orders>(context, listen: false).fetchAndSetOrders(),
+        future: _ordersFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
               child: CircularProgressIndicator(
                 backgroundColor: Theme.of(context).primaryColor,
               ),
-            )
-          : ListView.builder(
-              itemCount: orderData.orders.length,
-              itemBuilder: (ctx, i) => OrderItem(
-                orderData.orders[i],
-              ),
-            ),
+            );
+          } else {
+            if (snapshot.error != null) {
+              // ... Do error handling stuff
+              return Center(child: Text('An error occurred!'));
+            } else {
+              return Consumer<Orders>(
+                builder: (ctx, orderData, child) => ListView.builder(
+                  itemCount: orderData.orders.length,
+                  itemBuilder: (ctx, i) => OrderItem(
+                    orderData.orders[i],
+                  ),
+                ),
+              );
+            }
+          }
+        },
+      ),
     );
   }
 }
+
+//* Note
+// isLoading >
+// var _isLoading = false;
+
+// Stateful Widget > initState
+// @override
+// void initState() {
+// You don't need Future.delayed, once you set 'listen : false' false
+// Future.delayed(Duration.zero).then((_) async { ... });
+
+// _isLoading = true;
+
+// Provider.of<Orders>(context, listen: false).fetchAndSetOrders().then((_) {
+//   setState(() {
+//     _isLoading = false;
+//   });
+// });
+
+//   super.initState();
+// }
