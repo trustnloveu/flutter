@@ -45,6 +45,14 @@ class Products with ChangeNotifier {
     // ),
   ];
 
+  final String authToken;
+
+  // Constructor
+  Products(
+    this.authToken,
+    this._items
+  );
+
   // Getter // ! To avoid direct access to the poitner
   List<Product> get items {
     return [..._items];
@@ -62,7 +70,7 @@ class Products with ChangeNotifier {
   // Get
   Future<void> fetchAndSetProducts() async {
     final url = Uri.parse(
-        'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/products.json');
+        'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=$authToken');
 
     try {
       final response = await http.get(url);
