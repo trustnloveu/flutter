@@ -133,7 +133,9 @@ class _AuthCardState extends State<AuthCard>
 
   // Animation
   AnimationController _controller;
-  Animation<Size> _heightAnimation;
+  // Animation<Size> _heightAnimation;
+  Animation<Offset> _slideAnimation;
+  Animation<double> _opacityAnimation;
 
   // initState
   @override
@@ -145,10 +147,27 @@ class _AuthCardState extends State<AuthCard>
       duration: Duration(milliseconds: 300),
     );
 
-    _heightAnimation = Tween<Size>(
-      begin: Size(double.infinity, 260),
-      end: Size(double.infinity, 320),
+    // _heightAnimation = Tween<Size>(
+    //   begin: Size(double.infinity, 260),
+    //   end: Size(double.infinity, 320),
+    // ).animate(
+    //   CurvedAnimation(
+    //     parent: _controller,
+    //     curve: Curves.fastOutSlowIn,
+    //   ),
+    // );
+
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(0, -1.5),
+      end: Offset(0, 0),
     ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.fastOutSlowIn,
+      ),
+    );
+
+    _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.fastOutSlowIn,
@@ -157,7 +176,8 @@ class _AuthCardState extends State<AuthCard>
 
     // To call setState
     // then, to run current screen and build widgets
-    _heightAnimation.addListener(() => setState(() {}));
+    // _heightAnimation.addListener(() => setState(() {}));
+    _opacityAnimation.addListener(() => setState(() {}));
   }
 
   // dispose
@@ -264,13 +284,14 @@ class _AuthCardState extends State<AuthCard>
       ),
       elevation: 8.0,
       child: AnimatedContainer(
-        height: _authMode == AuthMode.Signup ? 320 : 260, // for AnimatedContainer
+        height:
+            _authMode == AuthMode.Signup ? 320 : 260, // for AnimatedContainer
         duration: Duration(milliseconds: 300), // for AnimatedContainer
-        curve: Curves.easeIn, // for AnimatedContainer
+        curve: Curves.fastOutSlowIn, // for AnimatedContainer
         // height: _heightAnimation.value.height, // used in AnimatedBuilder & AnimationController
-        constraints:
-            // BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260), // used in AnimatedBuilder & AnimationController
-            BoxConstraints(minHeight: _heightAnimation.value.height),
+        // constraints:
+        //     BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260), // used in AnimatedBuilder & AnimationController
+        //     BoxConstraints(minHeight: _heightAnimation.value.height),
         width: deviceSize.width * 0.75,
         padding: EdgeInsets.all(16.0),
         child: Form(
@@ -308,20 +329,36 @@ class _AuthCardState extends State<AuthCard>
                   },
                 ),
                 // confirm password input
-                if (_authMode == AuthMode.Signup)
-                  TextFormField(
-                    enabled: _authMode == AuthMode.Signup,
-                    decoration: InputDecoration(labelText: 'Confirm Password'),
-                    obscureText: true,
-                    validator: _authMode == AuthMode.Signup
-                        ? (value) {
-                            if (value != _passwordController.text) {
-                              return 'Passwords do not match!';
-                            }
-                            return null;
-                          }
-                        : null,
+                // if (_authMode == AuthMode.Signup) // leave it out to apply animation to TextFormField
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  constraints: BoxConstraints(
+                    minHeight: _authMode == AuthMode.Signup ? 60 : 0,
+                    maxHeight: _authMode == AuthMode.Signup ? 120 : 0,
                   ),
+                  curve: Curves.fastOutSlowIn,
+                  child: FadeTransition(
+                    opacity:
+                        _opacityAnimation, // specific controller is required > Animation<double> for Opacity
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: TextFormField(
+                        enabled: _authMode == AuthMode.Signup,
+                        decoration:
+                            InputDecoration(labelText: 'Confirm Password'),
+                        obscureText: true,
+                        validator: _authMode == AuthMode.Signup
+                            ? (value) {
+                                if (value != _passwordController.text) {
+                                  return 'Passwords do not match!';
+                                }
+                                return null;
+                              }
+                            : null,
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 20,
                 ),
