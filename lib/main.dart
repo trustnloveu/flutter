@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/screens/auth_screen.dart'; // AuthScreen
 import 'package:shop_app/screens/cart_screen.dart'; // CartScreen
 import 'package:shop_app/screens/orders_screen.dart'; // OrdersScreen
-import 'package:shop_app/screens/edit_product_screen.dart';  // EditProductScreen
+import 'package:shop_app/screens/edit_product_screen.dart'; // EditProductScreen
 import 'package:shop_app/screens/product_detail_screen.dart'; // ProductDetailScreen
-// import 'package:shop_app/screens/products_overview_screen.dart'; // ProductsOverviewScreen
+import 'package:shop_app/screens/products_overview_screen.dart'; // ProductsOverviewScreen
 
 // Providers
 import 'package:shop_app/providers/auth.dart'; // Auth
@@ -45,31 +45,32 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Orders(),
         )
       ],
-      child: MaterialApp(
-        // Title
-        title: 'Flutter Demo',
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          // Title
+          title: 'MyShop App',
 
-        // Theme
-        theme: ThemeData(
-          primarySwatch: Colors.pink,
-          accentColor: Colors.yellowAccent,
-          fontFamily: 'Lato',
+          // Theme
+          theme: ThemeData(
+            primarySwatch: Colors.pink,
+            accentColor: Colors.yellowAccent,
+            fontFamily: 'Lato',
+          ),
+
+          // Home
+          home: !auth.isAuth ? AuthScreen() : ProductsOverviewScreen(),
+
+          // routes
+          routes: {
+            CartScreen.routeName: (ctx) => CartScreen(),
+            OrdersScreen.routeName: (ctx) => OrdersScreen(),
+            EditProductScreen.routeName: (ctx) => EditProductScreen(),
+            UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
+            ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+            // AuthScreen.routeName : (ctx) => AuthScreen(),
+            // ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
+          },
         ),
-
-        // Home
-        // home: ProductsOverviewScreen(),
-        home: AuthScreen(),
-
-        // routes
-        routes: {
-          // ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
-          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-          CartScreen.routeName: (ctx) => CartScreen(),
-          OrdersScreen.routeName : (ctx) => OrdersScreen(),
-          UserProductsScreen.routeName : (ctx) => UserProductsScreen(),
-          EditProductScreen.routeName : (ctx) => EditProductScreen(),
-          // AuthScreen.routeName : (ctx) => AuthScreen(),
-        },
       ),
     );
   }
