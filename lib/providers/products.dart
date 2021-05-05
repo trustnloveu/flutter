@@ -70,9 +70,12 @@ class Products with ChangeNotifier {
   }
 
   // Get
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+
     var url = Uri.parse(
-        'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=$authToken');
+        'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=$authToken&$filterString');
 
     try {
       final response = await http.get(url);
@@ -121,7 +124,7 @@ class Products with ChangeNotifier {
           'imageUrl': product.imageUrl,
           'price': product.price,
           'isFavorite': product.isFavorite,
-          'createId' : userId,
+          'creatorId': userId,
         }),
       );
 
