@@ -21,15 +21,24 @@ class OrderItem {
 }
 
 class Orders with ChangeNotifier {
+  final String authToken;
   List<OrderItem> _orders = [];
 
+  Orders(
+    this.authToken,
+    this._orders,
+  );
+
+
+  // Orders Getter
   List<OrderItem> get orders {
     return [..._orders];
   }
 
+  // Get
   Future<void> fetchAndSetOrders() async {
     final url = Uri.parse(
-        'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json');
+        'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json?auth=$authToken');
 
     final response = await http.get(url);
 
@@ -59,14 +68,15 @@ class Orders with ChangeNotifier {
         );
       },
     );
-    
+
     _orders = loadedOrders.reversed.toList();
     notifyListeners();
   }
 
+  // Post
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     final url = Uri.parse(
-        'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json');
+        'https://flutter-shop-app-e61d9-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json?auth=$authToken');
 
     final timestamp = DateTime.now(); // To match the exact time data
 

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Providers
-import 'package:shop_app/providers/product.dart'; // Product
+import 'package:shop_app/providers/auth.dart'; // Auth
 import 'package:shop_app/providers/cart.dart'; // Cart
+import 'package:shop_app/providers/product.dart'; // Product
 
 // Routes
 import 'package:shop_app/screens/product_detail_screen.dart';
@@ -15,6 +16,9 @@ class ProductItem extends StatelessWidget {
   // build
   @override
   Widget build(BuildContext context) {
+    // Auth Provider
+    final authData = Provider.of<Auth>(context, listen: false);
+
     // Product Provider
     final product = Provider.of<Product>(context, listen: false);
 
@@ -53,7 +57,7 @@ class ProductItem extends StatelessWidget {
               // label: child // note: how to use child property of Consumer builder
               color: Theme.of(context).accentColor,
               onPressed: () {
-                product.toggleFavoriteStatus(product.id);
+                product.toggleFavoriteStatus(authData.token, authData.userId);
               },
             ),
             // child : Widget(...), // note : child property of Consumer builder
