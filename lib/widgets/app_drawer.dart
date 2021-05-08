@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 // Providers
 import 'package:shop_app/providers/auth.dart'; // Auth
 
-// Routes 
+// Routes
+import 'package:shop_app/helpers/custom_route.dart'; // CustomRoute
 import 'package:shop_app/screens/orders_screen.dart'; // OrdersScreen
 import 'package:shop_app/screens/user_products_screen.dart'; // UserProductsScreen
 
@@ -33,8 +34,12 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.shop_rounded),
             title: Text('Orders'),
             onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(OrdersScreen.routeName);
+              // Navigator.of(context).pushReplacementNamed(OrdersScreen.routeName);
+              Navigator.of(context).pushReplacement(
+                CustomRoute(
+                  builder: (ctx) => OrdersScreen(),
+                ),
+              );
             },
           ),
           Divider(),

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 // Screens & Routes
 import 'package:shop_app/screens/auth_screen.dart'; // AuthScreen
 import 'package:shop_app/screens/cart_screen.dart'; // CartScreen
+import 'package:shop_app/helpers/custom_route.dart'; // CustomRoute
 import 'package:shop_app/screens/splash_screen.dart'; // SplashScreen
 import 'package:shop_app/screens/orders_screen.dart'; // OrdersScreen
 import 'package:shop_app/screens/edit_product_screen.dart'; // EditProductScreen
@@ -66,6 +67,12 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.pink,
             accentColor: Colors.yellowAccent,
             fontFamily: 'Lato',
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: CustomPageTransitionBuilder(),
+                TargetPlatform.iOS: CustomPageTransitionBuilder(),
+              },
+            ),
           ),
 
           // Home
