@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// Providers
+import 'package:great_places_app/providers/great_places.dart'; // GreatPlaces
+
+// Screens & Routes
+import 'package:great_places_app/screens/add_place_screen.dart'; // AddPlaceScreen
+import 'package:great_places_app/screens/places_list_screen.dart'; // PlacesListScreen
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Great Places',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        accentColor: Colors.amber,
-      ),
-      home: MyHomePage(),
-    );
-  }
-}
+    return ChangeNotifierProvider(
+      create: (ctx) => GreatPlaces(),
+      child: MaterialApp(
+        // title
+        title: 'Great Places',
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+        // theme
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
+          accentColor: Colors.amber,
+        ),
 
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('123'),
+        // home
+        home: PlacesListScreen(),
+
+        // routes
+        routes: {
+          AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(),
+        },
       ),
-      body: Center(
-        child: Text('123'),
-      ), 
     );
   }
 }
