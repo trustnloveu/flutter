@@ -24,45 +24,55 @@ class ProductDetailScreen extends StatelessWidget {
 
     // return
     return Scaffold(
+      //* comment out when you use CustomScrollView (SliverAppBar)
       // appBar
-      appBar: AppBar(
-        title: Text(loadedProduct.title),
-      ),
+      // appBar: AppBar(
+      //   title: Text(loadedProduct.title),
+      // ),
 
       // body
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 300,
-              width: double.infinity,
-              child: Hero(
-                tag: loadedProduct.id,
-                              child: Image.network(
-                  loadedProduct.imageUrl,
-                  fit: BoxFit.cover,
+      body: CustomScrollView(
+        //* slivers : scrollable area on the screen
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(loadedProduct.title),
+              background: Image.network(
+                loadedProduct.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                SizedBox(height: 10),
+                Text(
+                  '\$${loadedProduct.price}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 20,
+                  ),
                 ),
-              ),
+                SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    loadedProduct.description,
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(
+                  height: 800,
+                )
+              ],
             ),
-            SizedBox(height: 10),
-            Text(
-              '\$${loadedProduct.price}',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 20,
-              ),
-            ),
-            SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                loadedProduct.description,
-                softWrap: true,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
