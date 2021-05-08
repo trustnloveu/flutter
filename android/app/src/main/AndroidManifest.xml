@@ -2,7 +2,8 @@
     package="com.example.great_places_app">
    <application
         android:label="great_places_app"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
