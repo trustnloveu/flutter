@@ -26,18 +26,18 @@ class _ImageInputState extends State<ImageInput> {
       maxWidth: 600,
     );
 
-    if (imageFile != null) {
-      setState(() {
-        _storedImage = File(imageFile.path);
-      });
+    if (imageFile == null) return;
+    
+    setState(() {
+      _storedImage = File(imageFile.path);
+    });
 
-      final appDir = await pathProvider.getApplicationDocumentsDirectory();
-      final fileName = path.basename(imageFile.path);
+    final appDir = await pathProvider.getApplicationDocumentsDirectory();
+    final fileName = path.basename(imageFile.path);
 
-      final savedImage = await _storedImage.copy('${appDir.path}/$fileName');
+    final savedImage = await _storedImage.copy('${appDir.path}/$fileName');
 
-      widget.onSelectImage(savedImage);
-    }
+    widget.onSelectImage(savedImage);
   }
 
   // build
@@ -53,17 +53,16 @@ class _ImageInputState extends State<ImageInput> {
             border: Border.all(width: 1, color: Colors.grey),
           ),
           alignment: Alignment.center,
-          child:
-              _storedImage != null
-                  ? Image.file(
-                      _storedImage,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    )
-                  : Text(
-                      'No Image Taken',
-                      textAlign: TextAlign.center,
-                    ),
+          child: _storedImage != null
+              ? Image.file(
+                  _storedImage,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                )
+              : Text(
+                  'No Image Taken',
+                  textAlign: TextAlign.center,
+                ),
         ),
         SizedBox(width: 10.0),
 
