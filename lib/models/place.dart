@@ -1,6 +1,5 @@
 import 'dart:io';
 
-//* Place
 class Place {
   final String id;
   final String title;
@@ -14,8 +13,6 @@ class Place {
     required this.image,
   });
 }
-
-//* PlaceLocation
 class PlaceLocation {
   final double latitude;
   final double longitude;

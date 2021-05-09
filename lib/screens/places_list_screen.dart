@@ -24,32 +24,43 @@ class PlacesListScreen extends StatelessWidget {
         ],
       ),
       // body
-      body: Consumer<GreatPlaces>(
-        child: Center(
-          child: const Text('Got no places yet, start adding some!'),
-        ),
-        builder: (ctx, greatePlaces, child) {
-          if (greatePlaces.items.length <= 0) {
-            return child as Widget;
-          }
-          return ListView.builder(
-            itemCount: greatePlaces.items.length,
-            itemBuilder: (ctx, i) {
-              return ListTile(
-                // leading
-                leading: CircleAvatar(
-                  backgroundImage: FileImage(
-                    greatePlaces.items[i].image,
-                  ),
+      body: FutureBuilder(
+        future: Provider.of<GreatPlaces>(context, listen: false)
+            .fetchAndSetPlaces(),
+        builder: (ctx, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            // waiting to load
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            // down loading
+            : Consumer<GreatPlaces>(
+                child: Center(
+                  child: const Text('Got no places yet, start adding some!'),
                 ),
-                // title
-                title: Text(greatePlaces.items[i].title),
-                // event
-                onTap: () {},
-              );
-            },
-          );
-        },
+                builder: (ctx, greatePlaces, child) {
+                  if (greatePlaces.items.length <= 0) {
+                    return child as Widget;
+                  }
+                  return ListView.builder(
+                    itemCount: greatePlaces.items.length,
+                    itemBuilder: (ctx, i) {
+                      return ListTile(
+                        // leading
+                        leading: CircleAvatar(
+                          backgroundImage: FileImage(
+                            greatePlaces.items[i].image,
+                          ),
+                        ),
+                        // title
+                        title: Text(greatePlaces.items[i].title),
+                        // event
+                        onTap: () {},
+                      );
+                    },
+                  );
+                },
+              ),
       ),
     );
   }
