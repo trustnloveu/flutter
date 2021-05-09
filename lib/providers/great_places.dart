@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 // Model
@@ -9,5 +12,21 @@ class GreatPlaces with ChangeNotifier {
   // Getter
   List<Place> get items {
     return [..._items];
+  }
+
+  // Add Place
+  void addPlace(String title, File pickedImage) {
+    final newPlace = Place(
+      id: DateTime.now().toString(),
+      image: pickedImage,
+      title: title,
+      location: PlaceLocation( // temp
+        latitude: 1,
+        longitude: 2,
+      ),
+    );
+
+    _items.add(newPlace);
+    notifyListeners();
   }
 }
